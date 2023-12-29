@@ -14,6 +14,8 @@ printf -- "  --send-animation FILE | -g FILE -  Send GIF or H.264/MPEG-4 AVC vid
 printf -- "  --delete-message INT            -  Deletes a message\n"
 printf -- "  --forward-message FROM INT      -  Forward a message to other chat\n"
 printf -- "  --copy-message FROM INT         -  Forward a message without backlink\n"
+printf -- "  --pin-message INT               -  Pin a message\n"
+printf -- "  --unpin-message INT             -  Unpin a message\n"
 printf -- "\nMandatory environmental variables\n"
 printf -- "  bot_token:   Token of the bot provided by Bot Father\n"
 printf -- "  channel_id:  Target channel with bot as admin\n"
@@ -104,6 +106,22 @@ function copy_message() {
 
 }
 
+function pin_message() {
+
+    msg=$1
+    curl -F chat_id="$channel_id" -F message_id="$msg" "${api_url}/bot${bot_token}/pinChatMessage" | jq '.'
+    printf -- "\n"
+
+}
+
+function unpin_message() {
+
+    msg=$1
+    curl -F chat_id="$channel_id" -F message_id="$msg" "${api_url}/bot${bot_token}/unpinChatMessage" | jq '.'
+    printf -- "\n"
+
+}
+
 for arg in "$@"
 do
     case $arg in
@@ -154,6 +172,16 @@ do
         --copy-message)
             shift
             copy_message $1 $2
+            exit
+            ;;
+        --pin-message)
+            shift
+            pin_message $1
+            exit
+            ;;
+        --unpin-message)
+            shift
+            unpin_message $1
             exit
             ;;
         *)
