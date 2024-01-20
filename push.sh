@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-source $(pwd)/.env
-
 function myhelp() {
 
 printf -- "Telegram Channel Push Bot ${version}\n"
