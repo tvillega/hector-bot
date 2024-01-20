@@ -21,6 +21,15 @@ printf -- "  api_url:     The Bot Api Server to use (local to bypass 50MiB file 
 
 }
 
+if [[ -z "${bot_token}" || -z "${channel_id}" ]] ; then
+    myhelp
+    exit 1
+fi
+
+if [[ -z "${api_url}" ]] ; then
+    api_url="https://api.telegram.org"
+fi
+
 function send_message() {
 
     t_text=`cat`
